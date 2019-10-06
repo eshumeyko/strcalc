@@ -1,6 +1,6 @@
 <?php
 
-use eshumeyko\strcalc\StrcalcBundle\RpnCalculator;
+use eshumeyko\StrcalcBundle\RpnCalculator;
 
 class Calculator extends RpnCalculator
 {

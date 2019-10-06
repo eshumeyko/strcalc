@@ -1,7 +1,7 @@
 <?php
 
 
-namespace eshumeyko\strcalc\StrcalcBundle;
+namespace eshumeyko\StrcalcBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
