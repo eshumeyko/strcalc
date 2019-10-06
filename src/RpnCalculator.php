@@ -2,8 +2,7 @@
 
 namespace eshumeyko\StrcalcBundle;
 
-use eshumeyko\StrcalcBundle\Exceptions\OddParenthesisException\OddParenthesisException;
-use eshumeyko\StrcalcBundle\Exceptions\UnavailableOperatorException\UnavailableOperatorException;
+use eshumeyko\StrcalcBundle\Exceptions;
 
 class RpnCalculator implements CalculatorInterface
 {
@@ -36,9 +35,9 @@ class RpnCalculator implements CalculatorInterface
         try {
             $postfix = $this->toPostfix($infix);
             $result = $this->calcPostfix($postfix);
-        } catch (OddParenthesisException $e) {
+        } catch (Exceptions\OddParenthesisException $e) {
             $result = $e->getMessage();
-        } catch (UnavailableOperatorException $e) {
+        } catch (Exceptions\UnavailableOperatorException $e) {
             $result = $e->getMessage();
         } catch (\DivisionByZeroError $e) {
             $result = self::ERR_DIVISION_BY_ZERO;
@@ -49,7 +48,7 @@ class RpnCalculator implements CalculatorInterface
 
     protected function toPostfix(string $infix): string
     {
-        $stack = new SplStack();
+        $stack = new \SplStack();
         $postfixArray = [];
 
         $infix = preg_replace("/\s/", "", $infix);
@@ -79,8 +78,15 @@ class RpnCalculator implements CalculatorInterface
                     } else {
                         $lastElement = $stack->pop();
 
+                        var_dump(self::AVAILABLE_OPERATORS);
+
                         $currPriority = self::AVAILABLE_OPERATORS[$value]['priority'] ?: 0;
-                        $prevPriority = self::AVAILABLE_OPERATORS[$lastElement]['priority'] ?: 0;
+
+                        if (isset(self::AVAILABLE_OPERATORS[$lastElement])) {
+                            $prevPriority = self::AVAILABLE_OPERATORS[$lastElement]['priority'] ?: 0;
+                        } else {
+                            $prevPriority = 0;
+                        }
                         $currAssoc = self::AVAILABLE_OPERATORS[$value]['assoc'] ?: 0;
 
                         if ($currAssoc === self::LEFT_ASSOC) {
@@ -134,7 +140,7 @@ class RpnCalculator implements CalculatorInterface
 
                 $lastIsNumber = false;
             } else {
-                throw new UnavailableOperatorException($value);
+                throw new Exceptions\UnavailableOperatorException($value);
             }
         }
 
@@ -149,7 +155,7 @@ class RpnCalculator implements CalculatorInterface
 
     public function calcPostfix(string $postfix): string
     {
-        $stack = new SplStack();
+        $stack = new \SplStack();
 
         $token = strtok($postfix, ' ');
 
@@ -202,11 +208,3 @@ class RpnCalculator implements CalculatorInterface
 
 
 }
-
-$c = new RpnCalculator();
-
-$result = $c->calc("(-99 - 9*7 _ -8)/0.55 - 1 ");
-var_dump($result);
-
-
-

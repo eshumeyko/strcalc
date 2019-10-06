@@ -1,6 +1,6 @@
 <?php
 
-namespace eshumeyko\StrcalcBundle\Exceptions\OddParenthesisException;
+namespace eshumeyko\StrcalcBundle\Exceptions;
 
 class OddParenthesisException extends \Exception
 {

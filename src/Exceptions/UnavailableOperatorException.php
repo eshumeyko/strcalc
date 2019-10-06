@@ -1,6 +1,8 @@
 <?php
 
-namespace eshumeyko\StrcalcBundle\Exceptions\UnavailableOperatorException;
+namespace eshumeyko\StrcalcBundle\Exceptions;
+
+use eshumeyko\StrcalcBundle\RpnCalculator;
 
 class UnavailableOperatorException extends \Exception
 {
@@ -9,7 +11,7 @@ class UnavailableOperatorException extends \Exception
 
         $message = sprintf('Недопустимый оператор "%s", список поддерживаемых операторов: [%s]',
             $operator,
-            implode(' ', array_keys(RpnCalculator::AVAILABLE_OPERATORS))
+            implode(', ', array_keys(RpnCalculator::AVAILABLE_OPERATORS))
         );
 
         parent::__construct($message, $code);
