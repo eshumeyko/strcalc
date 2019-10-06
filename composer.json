@@ -10,12 +10,12 @@
     },
     "autoload": {
         "psr-4": {
-            "eshumeyko\\strcalc\\": "src/"
+            "eshumeyko\\StrcalcBundle\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "eshumeyko\\strcalc\\Tests\\": "tests/"
+            "eshumeyko\\StrcalcBundle\\Tests\\": "tests/"
         }
     }
 }
