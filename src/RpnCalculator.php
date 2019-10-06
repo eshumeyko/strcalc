@@ -2,7 +2,6 @@
 
 namespace eshumeyko\StrcalcBundle;
 
-use eshumeyko\StrcalcBundle\CalculatorInterface;
 use eshumeyko\StrcalcBundle\Exceptions\OddParenthesisException\OddParenthesisException;
 use eshumeyko\StrcalcBundle\Exceptions\UnavailableOperatorException\UnavailableOperatorException;
 

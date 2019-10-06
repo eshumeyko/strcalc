@@ -9,6 +9,6 @@ class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        return new TreeBuilder('strcalc');
+        return new TreeBuilder('strcalc000');
     }
 }
