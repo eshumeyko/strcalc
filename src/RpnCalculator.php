@@ -2,7 +2,11 @@
 
 namespace eshumeyko\StrcalcBundle;
 
-use eshumeyko\StrcalcBundle\Exceptions;
+use eshumeyko\StrcalcBundle\Exceptions\{
+    ExcpectedNumberException,
+    UnavailableOperatorException,
+    OddParenthesisException
+};
 
 class RpnCalculator implements CalculatorInterface
 {
@@ -35,12 +39,14 @@ class RpnCalculator implements CalculatorInterface
         try {
             $postfix = $this->toPostfix($infix);
             $result = $this->calcPostfix($postfix);
-        } catch (Exceptions\OddParenthesisException $e) {
+        } catch (OddParenthesisException $e) {
             $result = $e->getMessage();
-        } catch (Exceptions\UnavailableOperatorException $e) {
+        } catch (UnavailableOperatorException $e) {
             $result = $e->getMessage();
         } catch (\DivisionByZeroError $e) {
             $result = self::ERR_DIVISION_BY_ZERO;
+        } catch (\Exception $e) {
+            $result = $e->getMessage();
         }
 
         return $result;
@@ -72,26 +78,24 @@ class RpnCalculator implements CalculatorInterface
                 while ($endOperatorCycle != true) {
 
                     if ($stack->isEmpty()) {
-                        $stack->push($value); //если в стеке нет операторов - просто записываем текущий оператор в стек
-                        $endOperatorCycle = true; //укажем, что цикл разбора while закончился
+                        $stack->push($value);
+                        $endOperatorCycle = true;
 
                     } else {
                         $lastElement = $stack->pop();
 
-                        var_dump(self::AVAILABLE_OPERATORS);
 
-                        $currPriority = self::AVAILABLE_OPERATORS[$value]['priority'] ?: 0;
+                        $currPriority = isset(self::AVAILABLE_OPERATORS[$value]) ?
+                            self::AVAILABLE_OPERATORS[$value]['priority'] : 0;
 
-                        if (isset(self::AVAILABLE_OPERATORS[$lastElement])) {
-                            $prevPriority = self::AVAILABLE_OPERATORS[$lastElement]['priority'] ?: 0;
-                        } else {
-                            $prevPriority = 0;
-                        }
-                        $currAssoc = self::AVAILABLE_OPERATORS[$value]['assoc'] ?: 0;
+                        $prevPriority = isset(self::AVAILABLE_OPERATORS[$lastElement]) ?
+                            self::AVAILABLE_OPERATORS[$lastElement]['priority'] : 0;
+
+                        $currAssoc = isset(self::AVAILABLE_OPERATORS[$value]) ?
+                            self::AVAILABLE_OPERATORS[$value]['assoc'] : 0;
 
                         if ($currAssoc === self::LEFT_ASSOC) {
                             if ($currPriority > $prevPriority) {
-
                                 $stack[] = $lastElement;
                                 $stack[] = $value;
                                 $endOperatorCycle = true;
@@ -140,7 +144,7 @@ class RpnCalculator implements CalculatorInterface
 
                 $lastIsNumber = false;
             } else {
-                throw new Exceptions\UnavailableOperatorException($value);
+                throw new UnavailableOperatorException($value);
             }
         }
 
@@ -153,7 +157,7 @@ class RpnCalculator implements CalculatorInterface
         return implode(' ', $rpn);
     }
 
-    public function calcPostfix(string $postfix): string
+    protected function calcPostfix(string $postfix): string
     {
         $stack = new \SplStack();
 
@@ -164,7 +168,7 @@ class RpnCalculator implements CalculatorInterface
             if (in_array($token, $this->operatorValues)) {
 
                 if ($stack->count() < 2) {
-                    throw new Exception("Недостаточно данных в стеке для операции '$token'");
+                    throw new ExcpectedNumberException($token);
                 }
 
                 $b = $stack->pop();
@@ -192,19 +196,11 @@ class RpnCalculator implements CalculatorInterface
 
             } elseif (is_numeric($token)) {
                 $stack->push($token);
-            } else {
-                throw new Exception("Недопустимый символ в выражении: $token");
             }
 
             $token = strtok(' ');
         }
 
-        if (count($stack) > 1) {
-            throw new Exception("Количество операторов не соответствует количеству операндов");
-        }
-
         return $stack->pop();
     }
-
-
 }
