@@ -1,6 +1,6 @@
 <?php
 
-namespace eshumeyko\StrcalcBundle\DependencyInjection;
+namespace eshumeyko\strcalc\StrcalcBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace eshumeyko\StrcalcBundle;
+namespace eshumeyko\strcalc\StrcalcBundle;
 
 
 interface CalculatorInterface

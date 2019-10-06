@@ -1,6 +1,6 @@
 <?php
 
-namespace eshumeyko\StrcalcBundle;
+namespace eshumeyko\strcalc\StrcalcBundle;
 
 use eshumeyko\StrcalcBundle\CalculatorInterface;
 use eshumeyko\StrcalcBundle\Exceptions\OddParenthesisException\OddParenthesisException;

@@ -1,6 +1,6 @@
 <?php
 
-namespace eshumeyko\StrcalcBundle\Exceptions\UnavailableOperatorException;
+namespace eshumeyko\strcalc\StrcalcBundle\Exceptions\UnavailableOperatorException;
 
 class UnavailableOperatorException extends \Exception
 {
