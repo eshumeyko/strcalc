@@ -3,6 +3,7 @@
     "description": "String calculator",
     "type": "symfony-bundle",
     "license": "proprietary",
+    "minimum-stability":"dev",
     "require": {
         "php": "^7.1.3"
     },
