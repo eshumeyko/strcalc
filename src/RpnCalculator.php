@@ -4,6 +4,7 @@ namespace eshumeyko\StrcalcBundle;
 
 use eshumeyko\StrcalcBundle\Exceptions\{
     ExcpectedNumberException,
+    UnavailableFirstSymbolException,
     UnavailableOperatorException,
     OddParenthesisException
 };
@@ -63,8 +64,11 @@ class RpnCalculator implements CalculatorInterface
 
         $infixArray = str_split($infix);
 
-        if (in_array($infixArray[0], $this->operatorValues)) {
+
+        if ($infixArray[0] === "-") {
             array_unshift($infixArray, "0");
+        } elseif (in_array($infixArray[0], $this->operatorValues)) {
+            throw new UnavailableFirstSymbolException();
         }
 
         $lastIsNumber = true;
