@@ -17,5 +17,8 @@
         "psr-4": {
             "eshumeyko\\StrcalcBundle\\Tests\\": "tests/"
         }
+    },
+    "require-dev": {
+        "symfony/phpunit-bridge": "^4.3"
     }
 }
