@@ -12,14 +12,14 @@ String Calculator Symfony4 Bundle
 ### Usage
 
     
-        ...
+	...
 		use eshumeyko\StrcalcBundle\Calculator;
 		
 	...
 		
 		$infix = "1 + 2 / 4 - 9 * (1 - 7/3.5)^2";
-		$calculator = new Calculator();
-                $result = $calculator->calc($infix); 
+		$calculator = new Calculator();		
+		$result = $calculator->calc($infix); 
 		// -7.5
 		
 	...
