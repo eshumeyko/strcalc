@@ -3,7 +3,7 @@
 namespace eshumeyko\StrcalcBundle;
 
 use eshumeyko\StrcalcBundle\Exceptions\{
-    ExcpectedNumberException,
+    ExpectedNumberException,
     UnavailableFirstSymbolException,
     UnavailableOperatorException,
     OddParenthesisException
@@ -62,8 +62,11 @@ class RpnCalculator implements CalculatorInterface
         $infix = str_replace(",", ".", $infix);
         $infix = str_replace("(-", "(0-", $infix);
 
-        $infixArray = str_split($infix);
+        if (substr_count($infix, "(" ) !== substr_count($infix, ")" )) {
+            throw new OddParenthesisException();
+        }
 
+        $infixArray = str_split($infix);
 
         if ($infixArray[0] === "-") {
             array_unshift($infixArray, "0");
@@ -172,7 +175,7 @@ class RpnCalculator implements CalculatorInterface
             if (in_array($token, $this->operatorValues)) {
 
                 if ($stack->count() < 2) {
-                    throw new ExcpectedNumberException($token);
+                    throw new ExpectedNumberException($token);
                 }
 
                 $b = $stack->pop();

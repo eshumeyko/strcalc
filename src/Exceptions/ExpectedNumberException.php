@@ -2,7 +2,7 @@
 
 namespace eshumeyko\StrcalcBundle\Exceptions;
 
-class ExcpectedNumberException extends \Exception
+class ExpectedNumberException extends \Exception
 {
     public function __construct(
         string $operator,
